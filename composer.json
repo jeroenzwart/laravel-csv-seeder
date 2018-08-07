@@ -1,10 +1,10 @@
 {
-    "name": "jeroenzwart/csv-seeder",
-    "description": "Seed the database using CSV files",
+    "name": "jeroenzwart/laravel-csv-seeder",
+    "description": "Seed the database with Laravel using CSV files",
 	"keywords": [
         "laravel",
         "csv",
-		"excel",
+	"excel",
         "seed",
         "seeds",
         "seeder",
@@ -17,13 +17,13 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Jeroen Zwart",
-            "email": "mailme@jeroenzwart.nl"
+		"name": "Jeroen Zwart",
+		"email": "mailme@jeroenzwart.nl"
         }
     ],
 	"autoload": {
         "psr-0": {
-			"JeroenZwart\\CsvSeeder\\": "src"
+		"JeroenZwart\\CsvSeeder\\": "src"
         }
     },
     "minimum-stability": "dev"
