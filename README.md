@@ -81,22 +81,22 @@ Users of Microsoft Excel can use a macro to export there worksheets to CSV. Easi
 ##Examples
 #####Table
 Give the seeder a specific table name instead of using the CSV filename;
-
+```php
     public function __construct()
     {
             $this->file = '/database/seeds/csvs/users.csv';
             $this->table = 'email_users';
      }
-
+```
 #####Defaults
 Seed a table with default values, like this;
-
+```php
     public function __construct()
     {
     	$this->file = '/database/seeds/csvs/users.csv';
     	$this->defaults = ['created_by' => 'seeder', 'updated_by' => 'seeder'];
 	}
-
+```
 #####Skipper
 Skip a column in a CSV with a prefix. For example you use `id` in your CSV and only usable in your CSV editor. The following CSV file looks like so;
 
@@ -107,12 +107,12 @@ The first and fourth value of each row will be skipped with seeding.
 
 #####Hash
 Hash values when seeding a CSV like this;
-
+```php
     public function __construct()
     {
     	$this->file = '/database/seeds/csvs/users.csv';
     	$this->hashable = ['password', 'salt'];
     }
-
+```
 ##License
 LaravelCsvSeeder is open-sourced software licensed under the MIT license.
