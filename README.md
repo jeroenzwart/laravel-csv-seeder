@@ -26,8 +26,8 @@ use JeroenZwart\CsvSeeder\CsvSeeder;
 class UsersTableSeeder extends CsvSeeder
 {
     public function __construct()
-	{
-        $this->file         = '/database/seeds/csvs/users.csv';
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
     }
     
     /**
@@ -38,8 +38,8 @@ class UsersTableSeeder extends CsvSeeder
     public function run()
     {
         // Recommended when importing larger CSVs
-		DB::disableQueryLog();
-		parent::run();
+	DB::disableQueryLog();
+	parent::run();
     }
 }
 ```
@@ -86,7 +86,7 @@ Give the seeder a specific table name instead of using the CSV filename;
     {
             $this->file = '/database/seeds/csvs/users.csv';
             $this->table = 'email_users';
-     }
+	}
 ```
 #####Defaults
 Seed a table with default values, like this;
@@ -103,7 +103,15 @@ Skip a column in a CSV with a prefix. For example you use `id` in your CSV and o
     %id,first_name,last_name,%id_copy,birthday
     1,Foo,Bar,1,1970-01-01
     2,John,Doe,2,1980-01-01
-The first and fourth value of each row will be skipped with seeding.
+
+The first and fourth value of each row will be skipped with seeding. The default prefix is '%' and changeable to;
+```php
+    public function __construct()
+    {
+    	$this->file = '/database/seeds/csvs/users.csv';
+    	$this->skipper = 'custom_';
+	}
+```
 
 #####Hash
 Hash values when seeding a CSV like this;
