@@ -58,7 +58,7 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `skipper` *(string %)* - Skip a CSV header and data to import in the table
 - `hashable` *(array ['password'])* - Array of column names to hash there values. It uses Hash::make().
 - `defaults` *(array [])* - Array of table columns and its values to seed with CSV file.
-- `timestamps` *(array/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
+- `timestamps` *(string/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
 - `delimiter` *(string ;)* - The used delimiter in the CSV files.
 - `chunk` *(integer 50)* - Insert the data of rows every `chunk` while reading the CSV.
 
@@ -79,24 +79,44 @@ Users of Microsoft Excel can use a macro to export there worksheets to CSV. Easi
     End Sub
 
 ## Examples
-#### Table
+#### Table with given timestamps
 Give the seeder a specific table name instead of using the CSV filename;
 ```php
-    public function __construct()
-    {
-            $this->file = '/database/seeds/csvs/users.csv';
-            $this->table = 'email_users';
+	public function __construct()
+    	{
+		$this->file = '/database/seeds/csvs/users.csv';
+		$this->table = 'email_users';
+		$this->timestamps = '1970-01-01 00:00:00';
 	}
 ```
-#### Defaults
-Seed a table with default values, like this;
+
+#### Mapping
+Map the CSV headers to table columns, with the following CSV;
+
+    1,Foo,Bar
+    2,John,Doe
+
+Handle like this;    
 ```php
-    public function __construct()
-    {
-    	$this->file = '/database/seeds/csvs/users.csv';
-    	$this->defaults = ['created_by' => 'seeder', 'updated_by' => 'seeder'];
+	public function __construct()
+	{
+		$this->file = '/database/seeds/csvs/users.csv';
+		$this->mapping = ['id', 'firstname', 'lastname'];
+		$this->headers = FALSE;
 	}
 ```
+
+#### Aliases with defaults
+Seed a table with aliases and default values, like this;
+```php
+	public function __construct()
+	{
+		$this->file = '/database/seeds/csvs/users.csv';
+		$this->aliases = ['csvColumnName' => 'table_column_name', 'foo' => 'bar'];
+		$this->defaults = ['created_by' => 'seeder', 'updated_by' => 'seeder'];
+	}
+```
+
 #### Skipper
 Skip a column in a CSV with a prefix. For example you use `id` in your CSV and only usable in your CSV editor. The following CSV file looks like so;
 
@@ -106,21 +126,22 @@ Skip a column in a CSV with a prefix. For example you use `id` in your CSV and o
 
 The first and fourth value of each row will be skipped with seeding. The default prefix is '%' and changeable to;
 ```php
-    public function __construct()
-    {
-    	$this->file = '/database/seeds/csvs/users.csv';
-    	$this->skipper = 'custom_';
+	public function __construct()
+	{
+		$this->file = '/database/seeds/csvs/users.csv';
+		$this->skipper = 'custom_';
 	}
 ```
 
 #### Hash
 Hash values when seeding a CSV like this;
 ```php
-    public function __construct()
-    {
-    	$this->file = '/database/seeds/csvs/users.csv';
-    	$this->hashable = ['password', 'salt'];
-    }
+	public function __construct()
+	{
+		$this->file = '/database/seeds/csvs/users.csv';
+		$this->hashable = ['password', 'salt'];
+	}
 ```
+
 ## License
 LaravelCsvSeeder is open-sourced software licensed under the MIT license.
