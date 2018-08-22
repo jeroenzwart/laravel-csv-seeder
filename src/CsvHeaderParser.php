@@ -6,8 +6,8 @@ use DB;
 
 class CsvHeaderParser
 {   
-    protected $aliases      = [];
-    protected $skipper      = '%';
+    private $aliases      = [];
+    private $skipper      = '%';
 
     private $table;
     private $key;
@@ -20,9 +20,13 @@ class CsvHeaderParser
      *
      * @param string $tablename
      */
-    public function __construct( $tablename )
+    public function __construct( $tablename, $aliases, $skipper )
     {
         $this->table = DB::getSchemaBuilder()->getColumnListing( $tablename );
+
+        $this->aliases = $aliases === NULL ? $this->aliases : $aliases;
+
+        $this->skipper = $skipper === NULL ? $this->skipper : $skipper;
     }
 
     /**
@@ -41,7 +45,7 @@ class CsvHeaderParser
 
             $this->skipColumns();
 
-            $this->checkColumns();
+            $this->checkColumns();;
         }
 
         return $this->parsedHeader;
@@ -55,8 +59,12 @@ class CsvHeaderParser
     private function aliasColumns()
     {
         if( empty($this->aliases) ) return;
-
-        if( array_key_exists($this->name, $this->aliases) ) $this->parsedHeader[$this->key] = $this->aliases[$this->name];
+        
+        if( array_key_exists($this->name, $this->aliases) )
+        {
+            $this->name = $this->aliases[$this->name];
+            $this->parsedHeader[$this->key] = $this->name;
+        }
     }
 
     /**

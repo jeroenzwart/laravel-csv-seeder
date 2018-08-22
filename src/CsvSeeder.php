@@ -9,21 +9,122 @@ use JeroenZwart\CsvSeeder\CsvRowParser as CsvRowParser;
 
 class CsvSeeder extends Seeder
 {
-    protected $file;
-    protected $tablename;
-    protected $truncate     = TRUE;
-    protected $header       = TRUE;
-    protected $mapping      = [];
-    protected $hashable     = ['password'];
-    protected $delimiter    = ';';
-    protected $chunk        = 50;
+    /**
+     * Path of the CSV file
+     *
+     * @var string
+     */
+    public $file;
+
+    /**
+     * Table name of databast, if not set uses filename of CSV
+     *
+     * @var string
+     */
+    public $tablename;
+
+    /**
+     * Truncate table before seeding
+     * Default: TRUE
+     * 
+     * @var boolean
+     */
+    public $truncate = TRUE;
+
+    /**
+     * If the CSV has headers, set TRUE
+     * Default: TRUE
+     *
+     * @var boolean
+     */
+    public $header = TRUE;
+
+    /**
+     * The character that split the values in the CSV
+     * Default: ';'
+     * 
+     * @var string
+     */
+    public $delimiter = ';';
+
+    /**
+     * Array of column names used in the CSV
+     * Name map the columns of the CSV to the columns in table
+     * Mapping can also be used when there are headers in the CSV. The headers will be skipped.
+     * Example: ['firstCsvColumn', 'secondCsvColumn']
+     * 
+     * @var array
+     */
+    public $mapping;
+
+    /**
+     * Array of columns names as value with header name as index
+     * Example: ['csvColumn' => 'tableColumn', 'foo' => 'bar']
+     *
+     * @var array
+     */
+    public $aliases;
+
+    /**
+     * Array of column names to be hashed before inserting
+     * Default: ['password']
+     * Example: ['password', 'salt']
+     *
+     * @var array
+     */
+    public $hashable;
+
+    /**
+     * Array with default value for column(s) in the table
+     * Example: ['created_by' => 'seed', 'updated_by' => 'seed]
+     *
+     * @var array
+     */
+    public $defaults;
+
+    /**
+     * String of prefix used in CSV header, mapping or alias
+     * When a CSV column name begins with the string, this column will be skipped to insert
+     * Default: '%'
+     * Example: CSV header '#id_copy' will be skipped with skipper set as '#'
+     *
+     * @var string
+     */
+    public $skipper;
+
+    /**
+     * Set the Laravel timestamps while seeding data
+     * With TRUE the columns 'created_at' and 'updated_at' will be set with current date/time.
+     * When set on FALSE, the fields will have NULL
+     * Default: TRUE
+     * Example: '1970-01-01 00:00:00'
+     *
+     * @var string
+     */
+    public $timestamps;
+
+    /**
+     * Number of rows to skip at the start of the CSV, excluding the header
+     * Default: 0
+     * 
+     * @var integer
+     */
+    public $offset = 0;
+
+    /**
+     * Insert into SQL database in blocks of CSV data while parsing the CSV file
+     * Default: 50
+     * 
+     * @var integer
+     */
+    public $chunk       = 50;
     
+
     private $filepath;
     private $csvData;
     private $parsedData;
-    private $count          = 0;
-    private $total          = 0;
-    private $offset         = 0;
+    private $count = 0;
+    private $total = 0;
     
     /**
      * Run the class
@@ -106,6 +207,8 @@ class CsvSeeder extends Seeder
         $this->openCSV();
 
         $this->setHeader();
+        
+        $this->setMapping();
 
         $this->parseHeader();
 
@@ -172,12 +275,26 @@ class CsvSeeder extends Seeder
      * @return void
      */
     private function setHeader()
-    {
-        if( ! empty($this->mapping) ) return $this->header = $this->mapping;
-
+    {           
+        if( $this->header == FALSE ) return;
+        
+        $this->offset += 1;
+        
         $this->header = $this->stripUtf8Bom( fgetcsv( $this->csvData, 0, $this->delimiter ) );
 
-        $this->offset += 1;
+        if( count($this->header) == 1 ) $this->console( 'Found only one column in header, maybe a wrong delimiter ('.$this->delimiter.') for the CSV file was set' );        
+    }
+
+    /**
+     * Set mapping to headers variable
+     *
+     * @return void
+     */
+    private function setMapping()
+    {
+        if( empty($this->mapping) ) return;
+        
+        $this->header = $this->mapping;
     }
 
     /**
@@ -187,9 +304,9 @@ class CsvSeeder extends Seeder
      */
     private function parseHeader()
     {
-        if( ! $this->header ) return;
+        if( empty($this->header) ) return $this->console( 'No CSV headers were parsed' );
 
-        $parser = new CsvHeaderParser( $this->tablename );
+        $parser = new CsvHeaderParser( $this->tablename, $this->aliases, $this->skipper );
 
         $this->header = $parser->parseHeader( $this->header );
     }
@@ -210,11 +327,11 @@ class CsvSeeder extends Seeder
             $this->offset --;
 
             if( $this->offset > 0 ) continue;
-
+    
             if( empty($row) ) continue;
                     
             $parsed = $parser->parseRow( $row );
-
+            
             if( $parsed ) $this->parsedData[] = $parsed;
 
             $this->count ++;
@@ -232,6 +349,8 @@ class CsvSeeder extends Seeder
      */
     private function insertRows()
     {
+        if( empty($this->parsedData) ) return;
+
         try 
         {
             DB::table( $this->tablename )->insert( $this->parsedData );

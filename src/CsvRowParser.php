@@ -6,7 +6,6 @@ use Hash;
 
 class CsvRowParser
 {
-    
     private $header;
     private $defaults     = [];
     private $timestamps   = TRUE;
@@ -26,15 +25,15 @@ class CsvRowParser
      * @param string $timestamps
      * @param array $hashable
      */
-    public function __construct( $header, $defaults = FALSE, $timestamps = FALSE, $hashable = FALSE )
+    public function __construct( $header, $defaults, $timestamps, $hashable )
     {
         $this->header = $header;
-        
-        $this->defaults = $defaults ? $defaults : $this->defaults;
 
-        $this->timestamps = $timestamps ? $timestamps : $this->timestamps;
-        
-        $this->hashable = $hashable ? $hashable : $this->hashable;
+        $this->defaults = $defaults === NULL ? $this->defaults : $defaults;
+
+        $this->timestamps = $timestamps === NULL ? $this->timestamps : $timestamps;
+
+        $this->hashable = $hashable === NULL ? $this->hashable : $hashable;
     }
 
     /**
