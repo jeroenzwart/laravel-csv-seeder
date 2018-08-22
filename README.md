@@ -1,5 +1,5 @@
 # Laravel CSV Seeder
-> ####Seed your database using CSV files with Laravel
+> #### Seed your database using CSV files with Laravel
 
 With this package you can save time for seeding your database. Instead of typing out the seeder files, you can use CSV files to fill up the database of your project. There are configuration options available to control the insert the data of your CSV files.
 
@@ -79,7 +79,7 @@ Users of Microsoft Excel can use a macro to export there worksheets to CSV. Easi
     End Sub
 
 ## Examples
-##### Table
+#### Table
 Give the seeder a specific table name instead of using the CSV filename;
 ```php
     public function __construct()
@@ -88,7 +88,7 @@ Give the seeder a specific table name instead of using the CSV filename;
             $this->table = 'email_users';
 	}
 ```
-##### Defaults
+#### Defaults
 Seed a table with default values, like this;
 ```php
     public function __construct()
@@ -97,7 +97,7 @@ Seed a table with default values, like this;
     	$this->defaults = ['created_by' => 'seeder', 'updated_by' => 'seeder'];
 	}
 ```
-##### Skipper
+#### Skipper
 Skip a column in a CSV with a prefix. For example you use `id` in your CSV and only usable in your CSV editor. The following CSV file looks like so;
 
     %id,first_name,last_name,%id_copy,birthday
@@ -113,7 +113,7 @@ The first and fourth value of each row will be skipped with seeding. The default
 	}
 ```
 
-##### Hash
+#### Hash
 Hash values when seeding a CSV like this;
 ```php
     public function __construct()
