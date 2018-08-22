@@ -1,9 +1,9 @@
-#Laravel CSV Seeder
+# Laravel CSV Seeder
 > ####Seed your database using CSV files with Laravel
 
 With this package you can save time for seeding your database. Instead of typing out the seeder files, you can use CSV files to fill up the database of your project. There are configuration options available to control the insert the data of your CSV files.
 
-###Features
+### Features
 
 - Automatically try to resolve CSV filename to table name.
 - Automatic mapping of CSV headers to table column names.
@@ -12,13 +12,13 @@ With this package you can save time for seeding your database. Instead of typing
 - Seed default values in to table columns.
 - Adjust Laravel's timestamp at seeding.
 
-##Installation
+## Installation
 - Require this package directly by `composer require jeroenzwart/laravel-csv-seeder`
 - Or add this package in your composer.json and run `composer update`
 
     "jeroenzwart/laravel-csv-seeder": "1.*"
 
-##Basic usage
+## Basic usage
 Extend your seed classes with `JeroenZwart\CsvSeeder\CsvSeeder` and set the variable `$this->file` with the path of the CSV file. Tablename is not required, if the filename of the CSV is the same as the tablename. At last call `parent::run()` to seed. A seed class will look like this;
 ```php
 use JeroenZwart\CsvSeeder\CsvSeeder;
@@ -49,7 +49,7 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
     Foo,Bar,1970-01-01
     John,Doe,1980-01-01
 
-##Configuration
+## Configuration
 - `tablename` *(string*) - Name of table to insert data.
 - `truncate` *(boolean TRUE)*  - Truncate the table before seeding.
 - `header` *(boolean TRUE)* - CSV has a header row, set FALSE if not.
@@ -62,7 +62,7 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `delimiter` *(string ;)* - The used delimiter in the CSV files.
 - `chunk` *(integer 50)* - Insert the data of rows every `chunk` while reading the CSV.
 
-##Tip
+## Tip
 Users of Microsoft Excel can use a macro to export there worksheets to CSV. Easiest is to name your worksheets as table name. Use the following macro to export;
 
     Public Sub SaveWorksheetsAsCsv()
@@ -78,8 +78,8 @@ Users of Microsoft Excel can use a macro to export there worksheets to CSV. Easi
     Next
     End Sub
 
-##Examples
-#####Table
+## Examples
+##### Table
 Give the seeder a specific table name instead of using the CSV filename;
 ```php
     public function __construct()
@@ -88,7 +88,7 @@ Give the seeder a specific table name instead of using the CSV filename;
             $this->table = 'email_users';
 	}
 ```
-#####Defaults
+##### Defaults
 Seed a table with default values, like this;
 ```php
     public function __construct()
@@ -97,7 +97,7 @@ Seed a table with default values, like this;
     	$this->defaults = ['created_by' => 'seeder', 'updated_by' => 'seeder'];
 	}
 ```
-#####Skipper
+##### Skipper
 Skip a column in a CSV with a prefix. For example you use `id` in your CSV and only usable in your CSV editor. The following CSV file looks like so;
 
     %id,first_name,last_name,%id_copy,birthday
@@ -113,7 +113,7 @@ The first and fourth value of each row will be skipped with seeding. The default
 	}
 ```
 
-#####Hash
+##### Hash
 Hash values when seeding a CSV like this;
 ```php
     public function __construct()
@@ -122,5 +122,5 @@ Hash values when seeding a CSV like this;
     	$this->hashable = ['password', 'salt'];
     }
 ```
-##License
+## License
 LaravelCsvSeeder is open-sourced software licensed under the MIT license.
