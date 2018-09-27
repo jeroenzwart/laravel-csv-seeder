@@ -21,7 +21,7 @@
 		"email": "mailme@jeroenzwart.nl"
 	}
 	],
-	"autoload": {
+	"autoload-dev": {
 		"psr-4": {
 			"JeroenZwart\\CsvSeeder\\": "src"
 		}
