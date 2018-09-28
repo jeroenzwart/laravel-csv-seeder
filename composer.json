@@ -16,20 +16,20 @@
 	},
 	"license": "MIT",
 	"authors": [
-	{
-		"name": "Jeroen Zwart",
-		"email": "mailme@jeroenzwart.nl"
-	}
+		{
+			"name": "Jeroen Zwart",
+			"email": "mailme@jeroenzwart.nl"
+		}
 	],
 	"autoload-dev": {
 		"psr-4": {
-			"JeroenZwart\\CsvSeeder\\": "src"
+			"Jeroenzwart\\LaravelCsvSeeder\\": "src/"
 		}
 	},
 	"extra": {
 		"laravel": {
 			"providers": [
-				"JeroenZwart\\CsvSeeder\\CsvSeederServiceProvider"
+				"Jeroenzwart\\LaravelCsvSeeder\\CsvSeederServiceProvider"
 			]
 	    }
 	},

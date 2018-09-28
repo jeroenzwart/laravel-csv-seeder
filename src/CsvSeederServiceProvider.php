@@ -1,6 +1,6 @@
 <?php
 
-namespace JeroenZwart\CsvSeeder;
+namespace Jeroenzwart\LaravelCsvSeeder;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +20,7 @@ class CsvSeederServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //$this->package('Jeroenzwart/csv-seeder');
+        //
     }
 
     /**

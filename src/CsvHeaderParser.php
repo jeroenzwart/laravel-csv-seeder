@@ -1,6 +1,6 @@
 <?php
 
-namespace JeroenZwart\CsvSeeder;
+namespace Jeroenzwart\LaravelCsvSeeder;
 
 use DB;
 
