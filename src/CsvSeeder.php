@@ -257,16 +257,7 @@ class CsvSeeder extends Seeder
      */
     private function openCSV()
     {
-        if( $this->isGzipped( $this->filepath ) )
-        {
-            $data = gzopen( $this->filepath, 'r' );
-        } 
-        else
-        {
-            $data = fopen( $this->filepath, 'r' );
-        }
-
-        $this->csvData = $data;
+        $this->csvData = fopen( $this->filepath, 'r' );;
     }
 
     /**
@@ -391,23 +382,6 @@ class CsvSeeder extends Seeder
         $this->console( $this->count.' of '.$this->total.' rows has been seeded in table "'.$this->tablename.'"' );
     }
  
-    /**
-     * Check if file is gzipped
-     *
-     * @param string $file
-     * @return boolean
-     */
-    private function isGzipped( $file )
-    {   
-        $file_info      = finfo_open( FILEINFO_MIME_TYPE );
-        $file_mime_type = finfo_file( $file_info, $file );
-        finfo_close($file_info);
-
-        if( strcmp($file_mime_type, "application/x-gzip") == 0 ) return TRUE;
-
-        return FALSE;
-    } 
-
     /**
      * Strip 
      *
