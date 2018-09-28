@@ -19,9 +19,9 @@ With this package you can save time for seeding your database. Instead of typing
     "jeroenzwart/laravel-csv-seeder": "1.*"
 
 ## Basic usage
-Extend your seed classes with `JeroenZwart\CsvSeeder\CsvSeeder` and set the variable `$this->file` with the path of the CSV file. Tablename is not required, if the filename of the CSV is the same as the tablename. At last call `parent::run()` to seed. A seed class will look like this;
+Extend your seed classes with `Jeroenzwart\LaravelCsvSeeder\CsvSeeder` and set the variable `$this->file` with the path of the CSV file. Tablename is not required, if the filename of the CSV is the same as the tablename. At last call `parent::run()` to seed. A seed class will look like this;
 ```php
-use JeroenZwart\CsvSeeder\CsvSeeder;
+use Jeroenzwart\LaravelCsvSeeder\CsvSeeder;
 
 class UsersTableSeeder extends CsvSeeder
 {
