@@ -1,6 +1,6 @@
 <?php
 
-namespace Jeroenzwart\LaravelCsvSeeder;
+namespace JeroenZwart\CsvSeeder;
 
 use Hash;
 

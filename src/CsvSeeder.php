@@ -1,11 +1,11 @@
 <?php
 
-namespace Jeroenzwart\LaravelCsvSeeder;
+namespace JeroenZwart\CsvSeeder;
 
 use DB;
 use Illuminate\Database\Seeder;
-use Jeroenzwart\LaravelCsvSeeder\CsvHeaderParser as CsvHeaderParser;
-use Jeroenzwart\LaravelCsvSeeder\CsvRowParser as CsvRowParser;
+use JeroenZwart\CsvSeeder\CsvHeaderParser as CsvHeaderParser;
+use JeroenZwart\CsvSeeder\CsvRowParser as CsvRowParser;
 
 class CsvSeeder extends Seeder
 {

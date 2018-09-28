@@ -38,8 +38,8 @@ class UsersTableSeeder extends CsvSeeder
     public function run()
     {
         // Recommended when importing larger CSVs
-	DB::disableQueryLog();
-	parent::run();
+	    DB::disableQueryLog();
+	    parent::run();
     }
 }
 ```
@@ -144,4 +144,4 @@ Hash values when seeding a CSV like this;
 ```
 
 ## License
-LaravelCsvSeeder is open-sourced software licensed under the MIT license.
+Laravel CSV Seeder is open-sourced software licensed under the MIT license.
