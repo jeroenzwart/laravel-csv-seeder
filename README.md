@@ -13,7 +13,7 @@ With this package you can save time for seeding your database. Instead of typing
 - Adjust Laravel's timestamp at seeding.
 
 ## Installation
-- Require this package directly by `composer require jeroenzwart/laravel-csv-seeder`
+- Require this package directly by `composer require --dev jeroenzwart/laravel-csv-seeder`
 - Or add this package in your composer.json and run `composer update`
 
     "jeroenzwart/laravel-csv-seeder": "1.*"

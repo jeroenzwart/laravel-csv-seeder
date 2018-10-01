@@ -15,7 +15,7 @@
 		"php": ">=5.4.0",
 		"laravel/framework": ">=5.0.0"
 	},
-	"autoload-dev": {
+	"autoload": {
 		"psr-4": {
 			"JeroenZwart\\CsvSeeder\\": "src/"
 		}
