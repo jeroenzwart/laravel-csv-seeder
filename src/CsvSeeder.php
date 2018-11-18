@@ -188,7 +188,7 @@ class CsvSeeder extends Seeder
 
         if( DB::getSchemaBuilder()->hasTable( $this->tablename ) ) return TRUE;
 
-        $this->console( 'Table "'.$this->tablenamee.'" could not be found in database', 'error' );        
+        $this->console( 'Table "'.$this->tablename.'" could not be found in database', 'error' );        
 
         return FALSE;
     }
