@@ -74,6 +74,9 @@ class CsvSeeder extends Seeder
      */
     public $hashable;
 
+
+    public $validate;
+
     /**
      * Array with default value for column(s) in the table
      * Example: ['created_by' => 'seed', 'updated_by' => 'seed]
@@ -311,7 +314,7 @@ class CsvSeeder extends Seeder
     {
         if( ! $this->csvData || empty($this->header) ) return;
 
-        $parser = new CsvRowParser( $this->header, $this->defaults, $this->timestamps, $this->hashable );
+        $parser = new CsvRowParser( $this->header, $this->defaults, $this->timestamps, $this->hashable, $this->validate );
 
         while( ($row = fgetcsv( $this->csvData, 0, $this->delimiter )) !== FALSE )
         {
@@ -323,7 +326,9 @@ class CsvSeeder extends Seeder
                     
             $parsed = $parser->parseRow( $row );
             
-            if( $parsed ) $this->parsedData[] = $parsed;
+            if( ! $parsed ) continue;
+            
+            $this->parsedData[] = $parsed;
 
             $this->count ++;
 

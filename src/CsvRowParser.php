@@ -2,6 +2,7 @@
 
 namespace JeroenZwart\CsvSeeder;
 
+use Validator;
 use Hash;
 
 class CsvRowParser
@@ -10,11 +11,12 @@ class CsvRowParser
     private $defaults     = [];
     private $timestamps   = TRUE;
     private $hashable     = ['password'];
+    private $validate     = [];
 
     private $key;
     private $name;
     private $value;
-
+    private $row;
     private $parsedRow;
     
     /**
@@ -24,8 +26,9 @@ class CsvRowParser
      * @param array $defaults
      * @param string $timestamps
      * @param array $hashable
+     * @param array $validate
      */
-    public function __construct( $header, $defaults, $timestamps, $hashable )
+    public function __construct( $header, $defaults, $timestamps, $hashable, $validate )
     {
         $this->header = $header;
 
@@ -34,6 +37,8 @@ class CsvRowParser
         $this->timestamps = $timestamps === NULL ? $this->timestamps : $timestamps;
 
         $this->hashable = $hashable === NULL ? $this->hashable : $hashable;
+
+        $this->validate = $validate === NULL ? $this->validate : $validate;
     }
 
     /**
@@ -44,30 +49,47 @@ class CsvRowParser
      */
     public function parseRow( $row )
     {
-        if( empty($this->header) or empty($row) or !array_filter($row) ) return FALSE;
+        $this->row = $row;
+
+        $this->mergeRowAndHeader();
+        
+        if( empty($this->header) or empty($this->row) ) return FALSE;
 
         $this->init();
 
-        foreach( $this->header as $this->key => $this->name )
-        {
-            if( ! array_key_exists($this->key, $row) ) continue;
-            
-            $this->value = $row[ $this->key ];
-            
+        if( ! $this->doValidate() ) return FALSE;
+
+        foreach( $this->row as $this->key => $this->value )
+        {    
             $this->isEmptyValue();
             
             $this->doEncode();
 
             $this->doHashable();
 
-            $this->addParsed();
-
-            $this->addDefaults();
-    
-            $this->addTimestamps();
+            $this->parsedRow[ $this->key ] = $this->value;
         }
 
+        $this->addDefaults();
+        
+        $this->addTimestamps();
+
         return $this->parsedRow;
+    }
+
+    /**
+     * Merge/replace row keys and header values
+     * 
+     * @return void
+     */
+    private function mergeRowAndHeader( )
+    {
+        foreach( $this->row as $key => $value )
+        {
+            $merged[ $this->header[$key] ] = $value;
+        }
+
+        if( isset($merged) ) $this->row = $merged;
     }
 
     /**
@@ -78,6 +100,22 @@ class CsvRowParser
     private function init()
     {
         $this->parsedRow = [];
+    }
+
+    /**
+     * Validate the row
+     * 
+     * @return void
+     */
+    private function doValidate()
+    {
+        if( empty($this->validate) ) return TRUE;
+
+        $validator = Validator::make($this->row, $this->validate);
+
+        if( $validator->fails() ) return FALSE;
+
+        return TRUE;
     }
 
     /**
@@ -113,19 +151,9 @@ class CsvRowParser
     {
         if( empty($this->hashable) ) return;
 
-        if( ! in_array($this->name, $this->hashable) ) return;
+        if( ! in_array($this->key, $this->hashable) ) return;
 
         $this->value = Hash::make( $this->value );
-    }
-
-    /**
-     * Add the parsed value to the parsed row
-     * 
-     * @return void
-     */
-    private function addParsed()
-    {
-        $this->parsedRow[ $this->name ] = $this->value;
     }
 
     /**

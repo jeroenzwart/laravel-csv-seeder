@@ -55,7 +55,8 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `header` *(boolean TRUE)* - CSV has a header row, set FALSE if not.
 - `mapping` *(array [])* - Associative array of column names in order as CSV, if empy the first row of CSV will be used as header.
 - `aliases` *(array [])* - Associative array of CSV header names and column names; csvColumnName => aliasColumnName.
-- `skipper` *(string %)* - Skip a CSV header and data to import in the table
+- `skipper` *(string %)* - Skip a CSV header and data to import in the table.
+- `validate` *(array [])* - Validate a CSV row with Laravel Validation.
 - `hashable` *(array ['password'])* - Array of column names to hash there values. It uses Hash::make().
 - `defaults` *(array [])* - Array of table columns and its values to seed with CSV file.
 - `timestamps` *(string/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
@@ -130,6 +131,19 @@ The first and fourth value of each row will be skipped with seeding. The default
 	{
 		$this->file = '/database/seeds/csvs/users.csv';
 		$this->skipper = 'custom_';
+	}
+```
+
+#### Validate
+Validate each row of a CSV like this;
+```php
+	public function __construct()
+	{
+		$this->file = '/database/seeds/csvs/users.csv';
+		$this->validate = [ 'name'              => 'required',
+                            'email'             => 'email',
+                            'email_verified_at' => 'date_format:Y-m-d H:i:s',
+                            'password'          => ['required', Rule::notIn([' '])]];
 	}
 ```
 
