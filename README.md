@@ -103,7 +103,7 @@ Handle like this;
 	{
 		$this->file = '/database/seeds/csvs/users.csv';
 		$this->mapping = ['id', 'firstname', 'lastname'];
-		$this->headers = FALSE;
+		$this->header = FALSE;
 	}
 ```
 
