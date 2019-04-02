@@ -86,7 +86,7 @@ Give the seeder a specific table name instead of using the CSV filename;
 	public function __construct()
     	{
 		$this->file = '/database/seeds/csvs/users.csv';
-		$this->table = 'email_users';
+		$this->tablename = 'email_users';
 		$this->timestamps = '1970-01-01 00:00:00';
 	}
 ```
@@ -103,7 +103,7 @@ Handle like this;
 	{
 		$this->file = '/database/seeds/csvs/users.csv';
 		$this->mapping = ['id', 'firstname', 'lastname'];
-		$this->headers = FALSE;
+		$this->header = FALSE;
 	}
 ```
 
