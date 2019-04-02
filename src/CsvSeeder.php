@@ -74,7 +74,12 @@ class CsvSeeder extends Seeder
      */
     public $hashable;
 
-
+    /**
+     * Array with Laravel Validation rules
+     * Example: ['name' => 'required']
+     *
+     * @var array
+     */
     public $validate;
 
     /**
@@ -120,9 +125,8 @@ class CsvSeeder extends Seeder
      * 
      * @var integer
      */
-    public $chunk       = 50;
+    public $chunk = 50;
     
-
     private $filepath;
     private $csvData;
     private $parsedData;
