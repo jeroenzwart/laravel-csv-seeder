@@ -84,9 +84,9 @@ class CsvRowParser
      */
     private function mergeRowAndHeader( )
     {
-        foreach( $this->row as $key => $value )
+        foreach( $this->header as $key => $value )
         {
-            $merged[ $this->header[$key] ] = $value;
+            $merged[ $this->header[$key] ] = $this->row[$key];
         }
 
         if( isset($merged) ) $this->row = $merged;
