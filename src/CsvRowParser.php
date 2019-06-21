@@ -63,7 +63,9 @@ class CsvRowParser
         {    
             $this->isEmptyValue();
             
-            $this->doEncode();
+            if(mb_detect_encoding($this->value) != 'UTF-8') {
+                $this->doEncode();    
+            }
 
             $this->doHashable();
 
