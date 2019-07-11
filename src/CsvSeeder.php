@@ -126,6 +126,13 @@ class CsvSeeder extends Seeder
      * @var integer
      */
     public $chunk = 50;
+
+    /**
+     * If you want encode to UTF-8, set this to TRUE
+     * Default: TRUE
+     * @var bollean
+    */
+    public $encode = TRUE;
     
     private $filepath;
     private $csvData;
@@ -318,7 +325,7 @@ class CsvSeeder extends Seeder
     {
         if( ! $this->csvData || empty($this->header) ) return;
 
-        $parser = new CsvRowParser( $this->header, $this->defaults, $this->timestamps, $this->hashable, $this->validate );
+        $parser = new CsvRowParser( $this->header, $this->defaults, $this->timestamps, $this->hashable, $this->validate, $this->encode );
 
         while( ($row = fgetcsv( $this->csvData, 0, $this->delimiter )) !== FALSE )
         {

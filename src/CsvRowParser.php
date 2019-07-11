@@ -18,6 +18,7 @@ class CsvRowParser
     private $value;
     private $row;
     private $parsedRow;
+    private $encode;
     
     /**
      * Set the header and possible options to add or parse a row
@@ -27,8 +28,9 @@ class CsvRowParser
      * @param string $timestamps
      * @param array $hashable
      * @param array $validate
+     * @param bolean $encode
      */
-    public function __construct( $header, $defaults, $timestamps, $hashable, $validate )
+    public function __construct( $header, $defaults, $timestamps, $hashable, $validate, $encode )
     {
         $this->header = $header;
 
@@ -62,10 +64,8 @@ class CsvRowParser
         foreach( $this->row as $this->key => $this->value )
         {    
             $this->isEmptyValue();
-            
-            if(mb_detect_encoding($this->value) != 'UTF-8') {
-                $this->doEncode();    
-            }
+                        
+            $this->doEncode();                
 
             $this->doHashable();
 
@@ -141,7 +141,7 @@ class CsvRowParser
      */
     private function doEncode()
     {
-        if( is_string($this->value) ) $this->value = utf8_encode( $this->value );
+        if($this->encode) if( is_string($this->value) ) $this->value = utf8_encode( $this->value );
     }
    
     /**
