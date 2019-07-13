@@ -12,13 +12,13 @@ class CsvRowParser
     private $timestamps   = TRUE;
     private $hashable     = ['password'];
     private $validate     = [];
+    private $encode       = TRUE;
 
     private $key;
     private $name;
     private $value;
     private $row;
     private $parsedRow;
-    private $encode;
     
     /**
      * Set the header and possible options to add or parse a row
@@ -28,7 +28,7 @@ class CsvRowParser
      * @param string $timestamps
      * @param array $hashable
      * @param array $validate
-     * @param bolean $encode
+     * @param boolean $encode
      */
     public function __construct( $header, $defaults, $timestamps, $hashable, $validate, $encode )
     {
@@ -41,6 +41,8 @@ class CsvRowParser
         $this->hashable = $hashable === NULL ? $this->hashable : $hashable;
 
         $this->validate = $validate === NULL ? $this->validate : $validate;
+
+        $this->encode = $encode === NULL ? $this->encode : $encode;
     }
 
     /**
@@ -141,7 +143,9 @@ class CsvRowParser
      */
     private function doEncode()
     {
-        if($this->encode) if( is_string($this->value) ) $this->value = utf8_encode( $this->value );
+        if( $this->encode === FALSE ) return;
+        
+        if( is_string($this->value) ) $this->value = utf8_encode( $this->value );
     }
    
     /**

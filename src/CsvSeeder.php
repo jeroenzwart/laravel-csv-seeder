@@ -128,12 +128,14 @@ class CsvSeeder extends Seeder
     public $chunk = 50;
 
     /**
-     * If you want encode to UTF-8, set this to TRUE
+     * Encode value of rows to UTF-8, set this to TRUE
      * Default: TRUE
-     * @var bollean
+     * 
+     * @var boolean
     */
     public $encode = TRUE;
     
+
     private $filepath;
     private $csvData;
     private $parsedData;

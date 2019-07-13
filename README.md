@@ -62,6 +62,7 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `timestamps` *(string/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
 - `delimiter` *(string ;)* - The used delimiter in the CSV files.
 - `chunk` *(integer 50)* - Insert the data of rows every `chunk` while reading the CSV.
+- `encode` *(boolean TRUE)* - Encode the value of rows to UTF-8
 
 ## Tip
 Users of Microsoft Excel can use a macro to export there worksheets to CSV. Easiest is to name your worksheets as table name. Use the following macro to export;
