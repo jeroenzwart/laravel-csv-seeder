@@ -179,11 +179,14 @@ class CsvSeeder extends Seeder
      */
     private function checkFilepath()
     {
-        $this->filepath = base_path() . $this->file;
+        $this->filepath = $this->file;
+        if($this->file[0] != '/'){
+            $this->filepath = base_path() . $this->file;
+        }
 
         if( file_exists( $this->filepath ) || is_readable( $this->filepath ) ) return TRUE;
 
-        $this->console( 'File "'.$this->file.'" could not be found or is readable', 'error' );
+        $this->console( 'File "'.$this->file.'" could not be found or is not readable', 'error' );
 
         return FALSE;
     }
