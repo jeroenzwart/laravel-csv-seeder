@@ -26,7 +26,7 @@ class CsvSeeder extends Seeder
     /**
      * Truncate table before seeding
      * Default: TRUE
-     * 
+     *
      * @var boolean
      */
     public $truncate = TRUE;
@@ -42,7 +42,7 @@ class CsvSeeder extends Seeder
     /**
      * The character that split the values in the CSV
      * Default: ';'
-     * 
+     *
      * @var string
      */
     public $delimiter = ';';
@@ -52,7 +52,7 @@ class CsvSeeder extends Seeder
      * Name map the columns of the CSV to the columns in table
      * Mapping can also be used when there are headers in the CSV. The headers will be skipped.
      * Example: ['firstCsvColumn', 'secondCsvColumn']
-     * 
+     *
      * @var array
      */
     public $mapping;
@@ -114,7 +114,7 @@ class CsvSeeder extends Seeder
     /**
      * Number of rows to skip at the start of the CSV, excluding the header
      * Default: 0
-     * 
+     *
      * @var integer
      */
     public $offset = 0;
@@ -122,7 +122,7 @@ class CsvSeeder extends Seeder
     /**
      * Insert into SQL database in blocks of CSV data while parsing the CSV file
      * Default: 50
-     * 
+     *
      * @var integer
      */
     public $chunk = 50;
@@ -130,18 +130,18 @@ class CsvSeeder extends Seeder
     /**
      * Encode value of rows to UTF-8, set this to TRUE
      * Default: TRUE
-     * 
+     *
      * @var boolean
     */
     public $encode = TRUE;
-    
+
 
     private $filepath;
     private $csvData;
     private $parsedData;
     private $count = 0;
     private $total = 0;
-    
+
     /**
      * Run the class
      *
@@ -150,11 +150,11 @@ class CsvSeeder extends Seeder
     public function run()
     {
         if( ! $this->checkFile() ) return;
-        
+
         if( ! $this->checkFilepath() ) return;
 
         if( ! $this->checkTablename() ) return;
-        
+
         $this->seeding();
     }
 
@@ -179,11 +179,15 @@ class CsvSeeder extends Seeder
      */
     private function checkFilepath()
     {
+        $this->filepath = $this->file;
+
+        if( file_exists( $this->filepath ) || is_readable( $this->filepath ) ) return TRUE;
+
         $this->filepath = base_path() . $this->file;
 
         if( file_exists( $this->filepath ) || is_readable( $this->filepath ) ) return TRUE;
 
-        $this->console( 'File "'.$this->file.'" could not be found or is readable', 'error' );
+        $this->console( 'File "'.$this->file.'" could not be found or is not readable', 'error' );
 
         return FALSE;
     }
@@ -195,7 +199,7 @@ class CsvSeeder extends Seeder
      */
     private function checkTablename()
     {
-        if( ! isset($this->tablename) ) 
+        if( ! isset($this->tablename) )
         {
             $pathinfo = pathinfo( $this->filepath );
 
@@ -204,7 +208,7 @@ class CsvSeeder extends Seeder
 
         if( DB::getSchemaBuilder()->hasTable( $this->tablename ) ) return TRUE;
 
-        $this->console( 'Table "'.$this->tablename.'" could not be found in database', 'error' );        
+        $this->console( 'Table "'.$this->tablename.'" could not be found in database', 'error' );
 
         return FALSE;
     }
@@ -223,7 +227,7 @@ class CsvSeeder extends Seeder
         $this->openCSV();
 
         $this->setHeader();
-        
+
         $this->setMapping();
 
         $this->parseHeader();
@@ -242,13 +246,13 @@ class CsvSeeder extends Seeder
      * @return void
      */
     private function truncateTable( $foreignKeys = TRUE )
-    {        
+    {
         if( ! $this->truncate ) return;
 
         if( ! $foreignKeys ) DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-       
+
         DB::table( $this->tablename )->truncate();
-        
+
         if( ! $foreignKeys ) DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 
@@ -282,14 +286,14 @@ class CsvSeeder extends Seeder
      * @return void
      */
     private function setHeader()
-    {           
+    {
         if( $this->header == FALSE ) return;
-        
+
         $this->offset += 1;
-        
+
         $this->header = $this->stripUtf8Bom( fgetcsv( $this->csvData, 0, $this->delimiter ) );
 
-        if( count($this->header) == 1 ) $this->console( 'Found only one column in header, maybe a wrong delimiter ('.$this->delimiter.') for the CSV file was set' );        
+        if( count($this->header) == 1 ) $this->console( 'Found only one column in header, maybe a wrong delimiter ('.$this->delimiter.') for the CSV file was set' );
     }
 
     /**
@@ -300,7 +304,7 @@ class CsvSeeder extends Seeder
     private function setMapping()
     {
         if( empty($this->mapping) ) return;
-        
+
         $this->header = $this->mapping;
     }
 
@@ -334,13 +338,13 @@ class CsvSeeder extends Seeder
             $this->offset --;
 
             if( $this->offset > 0 ) continue;
-    
+
             if( empty($row) ) continue;
-                    
+
             $parsed = $parser->parseRow( $row );
-            
+
             if( ! $parsed ) continue;
-            
+
             $this->parsedData[] = $parsed;
 
             $this->count ++;
@@ -360,7 +364,7 @@ class CsvSeeder extends Seeder
     {
         if( empty($this->parsedData) ) return;
 
-        try 
+        try
         {
             DB::table( $this->tablename )->insert( $this->parsedData );
 
@@ -375,7 +379,7 @@ class CsvSeeder extends Seeder
             $this->closeCSV();
 
             die();
-        }        
+        }
     }
 
     /**
@@ -386,7 +390,7 @@ class CsvSeeder extends Seeder
     private function closeCSV()
     {
         if( ! $this->csvData ) return;
-        
+
         fclose( $this->csvData );
     }
 
@@ -399,9 +403,9 @@ class CsvSeeder extends Seeder
     {
         $this->console( $this->count.' of '.$this->total.' rows has been seeded in table "'.$this->tablename.'"' );
     }
- 
+
     /**
-     * Strip 
+     * Strip
      *
      * @param [type] $string
      * @return string
@@ -410,10 +414,10 @@ class CsvSeeder extends Seeder
     {
         $bom    = pack('H*', 'EFBBBF');
         $string = preg_replace("/^$bom/", '', $string);
-        
+
         return $string;
     }
-    
+
     /**
      * Logging
      *
