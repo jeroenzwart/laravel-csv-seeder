@@ -1,3 +1,11 @@
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Total Downloads][ico-downloads]][link-downloads]
+
+[ico-version]: https://img.shields.io/packagist/v/jeroenzwart/laravel-csv-seeder.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/jeroenzwart/laravel-csv-seeder.svg?style=flat-square
+[link-packagist]: https://packagist.org/packages/jeroenzwart/laravel-csv-seeder
+[link-downloads]: https://packagist.org/packages/jeroenzwart/laravel-csv-seeder
+
 # Laravel CSV Seeder
 > #### Seed your database using CSV files with Laravel
 
@@ -159,4 +167,12 @@ Hash values when seeding a CSV like this;
 ```
 
 ## License
-Laravel CSV Seeder is open-sourced software licensed under the MIT license.
+
+Laravel CSV Seeder is open-sourced software licensed under the MIT license. Please see the [license file](license.md) for more information
+
+## Donation
+
+If this project help you reduce time to develop, you can give me a cup of tea :)  
+By Bitcoin 17jnh8oBkgLpXo3d9Xmq6i6hhYgooaYiGf or the link below.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4KJ5KBX9CLUUA&source=url)
