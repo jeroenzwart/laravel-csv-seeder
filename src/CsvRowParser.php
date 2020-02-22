@@ -19,7 +19,7 @@ class CsvRowParser
     private $value;
     private $row;
     private $parsedRow;
-    
+
     /**
      * Set the header and possible options to add or parse a row
      *
@@ -56,7 +56,7 @@ class CsvRowParser
         $this->row = $row;
 
         $this->mergeRowAndHeader();
-        
+
         if( empty($this->header) or empty($this->row) ) return FALSE;
 
         $this->init();
@@ -64,10 +64,10 @@ class CsvRowParser
         if( ! $this->doValidate() ) return FALSE;
 
         foreach( $this->row as $this->key => $this->value )
-        {    
+        {
             $this->isEmptyValue();
-                        
-            $this->doEncode();                
+
+            $this->doEncode();
 
             $this->doHashable();
 
@@ -75,7 +75,7 @@ class CsvRowParser
         }
 
         $this->addDefaults();
-        
+
         $this->addTimestamps();
 
         return $this->parsedRow;
@@ -83,7 +83,7 @@ class CsvRowParser
 
     /**
      * Merge/replace row keys and header values
-     * 
+     *
      * @return void
      */
     private function mergeRowAndHeader( )
@@ -98,7 +98,7 @@ class CsvRowParser
 
     /**
      * Clear the parsed row
-     * 
+     *
      * @return void
      */
     private function init()
@@ -108,7 +108,7 @@ class CsvRowParser
 
     /**
      * Validate the row
-     * 
+     *
      * @return void
      */
     private function doValidate()
@@ -138,19 +138,19 @@ class CsvRowParser
 
     /**
      * Encode the value to UTF8
-     * 
+     *
      * @return void
      */
     private function doEncode()
     {
         if( $this->encode === FALSE ) return;
-        
-        if( is_string($this->value) ) $this->value = utf8_encode( $this->value );
+
+        if( is_string($this->value) ) $this->value = mb_convert_encoding( $this->value , 'UTF-8', 'auto');
     }
-   
+
     /**
      * Hash the value of given column(s), default: password
-     * 
+     *
      * @return void
      */
     private function doHashable()
@@ -164,7 +164,7 @@ class CsvRowParser
 
     /**
      * Add a default column with value to parsed row
-     * 
+     *
      * @return void
      */
     private function addDefaults()
@@ -176,10 +176,10 @@ class CsvRowParser
             $this->parsedRow[ $key ] = $value;
         }
     }
-    
+
     /**
      * Add timestamp to the parsed row
-     * 
+     *
      * @return void
      */
     private function addTimestamps()
@@ -190,6 +190,6 @@ class CsvRowParser
 
         $this->parsedRow[ 'created_at' ] = $this->timestamps;
         $this->parsedRow[ 'updated_at' ] = $this->timestamps;
-    }   
+    }
 
 }
