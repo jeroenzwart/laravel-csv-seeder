@@ -8,6 +8,7 @@ use Hash;
 class CsvRowParser
 {
     private $header;
+    private $empty        = FALSE;
     private $defaults     = [];
     private $timestamps   = TRUE;
     private $hashable     = ['password'];
@@ -15,7 +16,6 @@ class CsvRowParser
     private $encode       = TRUE;
 
     private $key;
-    private $name;
     private $value;
     private $row;
     private $parsedRow;
@@ -24,15 +24,18 @@ class CsvRowParser
      * Set the header and possible options to add or parse a row
      *
      * @param array $header
+     * @param boolean $empty
      * @param array $defaults
      * @param string $timestamps
      * @param array $hashable
      * @param array $validate
      * @param boolean $encode
      */
-    public function __construct( $header, $defaults, $timestamps, $hashable, $validate, $encode )
+    public function __construct( $header, $empty, $defaults, $timestamps, $hashable, $validate, $encode )
     {
         $this->header = $header;
+
+        $this->empty = $empty === NULL ? $this->empty : $empty;
 
         $this->defaults = $defaults === NULL ? $this->defaults : $defaults;
 
@@ -129,6 +132,8 @@ class CsvRowParser
      */
     private function isEmptyValue()
     {
+        if( $this->empty === FALSE and empty($this->value) ) $this->value = NULL;
+
         if( strtoupper($this->value) == 'NULL' ) $this->value = NULL;
 
         if( strtoupper($this->value) == 'FALSE' ) $this->value = FALSE;

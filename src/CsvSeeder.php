@@ -83,6 +83,14 @@ class CsvSeeder extends Seeder
     public $validate;
 
     /**
+     * Keep an empty value in the CSV to empty string instead of null
+     * Default: FALSE
+     *
+     * @var boolean
+     */
+    public $empty = FALSE;
+
+    /**
      * Array with default value for column(s) in the table
      * Example: ['created_by' => 'seed', 'updated_by' => 'seed]
      *
@@ -331,7 +339,7 @@ class CsvSeeder extends Seeder
     {
         if( ! $this->csvData || empty($this->header) ) return;
 
-        $parser = new CsvRowParser( $this->header, $this->defaults, $this->timestamps, $this->hashable, $this->validate, $this->encode );
+        $parser = new CsvRowParser( $this->header, $this->empty, $this->defaults, $this->timestamps, $this->hashable, $this->validate, $this->encode );
 
         while( ($row = fgetcsv( $this->csvData, 0, $this->delimiter )) !== FALSE )
         {

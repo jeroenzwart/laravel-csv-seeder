@@ -61,11 +61,12 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `tablename` *(string*) - Name of table to insert data.
 - `truncate` *(boolean TRUE)*  - Truncate the table before seeding.
 - `header` *(boolean TRUE)* - CSV has a header row, set FALSE if not.
-- `mapping` *(array [])* - Associative array of column names in order as CSV, if empy the first row of CSV will be used as header.
+- `mapping` *(array [])* - Associative array of column names in order as CSV, if empty the first row of CSV will be used as header.
 - `aliases` *(array [])* - Associative array of CSV header names and column names; csvColumnName => aliasColumnName.
 - `skipper` *(string %)* - Skip a CSV header and data to import in the table.
 - `validate` *(array [])* - Validate a CSV row with Laravel Validation.
 - `hashable` *(array ['password'])* - Array of column names to hash there values. It uses Hash::make().
+- `empty` *(boolean FALSE)* - Set TRUE for keeping an empty value in the CSV file to an empty string instead of a NULL.
 - `defaults` *(array [])* - Array of table columns and its values to seed with CSV file.
 - `timestamps` *(string/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
 - `delimiter` *(string ;)* - The used delimiter in the CSV files.
@@ -173,6 +174,6 @@ Laravel CSV Seeder is open-sourced software licensed under the MIT license. Plea
 ## Donation
 
 If this project help you reduce time to develop, you can give me a cup of tea :)  
-By Bitcoin 17jnh8oBkgLpXo3d9Xmq6i6hhYgooaYiGf or the link below.
+By Bitcoin 17jnh8oBkgLpXo3d9Xmq6i6hhYgooaYiGf or the link below;
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4KJ5KBX9CLUUA&source=url)
