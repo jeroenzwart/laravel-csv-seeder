@@ -92,6 +92,7 @@ class CsvSeeder extends Seeder
 
     /**
      * Array with default value for column(s) in the table
+     * When value of a column is empty or no column in the CSV file, it is using the default value
      * Example: ['created_by' => 'seed', 'updated_by' => 'seed]
      *
      * @var array

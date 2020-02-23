@@ -178,7 +178,9 @@ class CsvRowParser
 
         foreach( $this->defaults as $key => $value )
         {
-            $this->parsedRow[ $key ] = $value;
+            if( empty($this->parsedRow[ $key ]) ) {
+                $this->parsedRow[ $key ] = $value;
+            }
         }
     }
 

@@ -67,7 +67,7 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `validate` *(array [])* - Validate a CSV row with Laravel Validation.
 - `hashable` *(array ['password'])* - Array of column names to hash there values. It uses Hash::make().
 - `empty` *(boolean FALSE)* - Set TRUE for keeping an empty value in the CSV file to an empty string instead of a NULL.
-- `defaults` *(array [])* - Array of table columns and its values to seed with CSV file.
+- `defaults` *(array [])* - Array of table columns and it's values to seed, when they are empty in the CSV file.
 - `timestamps` *(string/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
 - `delimiter` *(string ;)* - The used delimiter in the CSV files.
 - `chunk` *(integer 50)* - Insert the data of rows every `chunk` while reading the CSV.
