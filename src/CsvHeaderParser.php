@@ -20,9 +20,9 @@ class CsvHeaderParser
      *
      * @param string $tablename
      */
-    public function __construct( $tablename, $aliases, $skipper )
+    public function __construct( $tablename, $aliases, $skipper, $db_connection )
     {
-        $this->table = DB::getSchemaBuilder()->getColumnListing( $tablename );
+        $this->table = DB::connection($db_connection)->getSchemaBuilder()->getColumnListing( $tablename );
 
         $this->aliases = $aliases === NULL ? $this->aliases : $aliases;
 
