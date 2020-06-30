@@ -14,7 +14,7 @@ class CsvSeeder extends Seeder
      *
      * @var string
      */
-    public $db_connection;
+    public $connection;
 
     /**
      * Path of the CSV file
@@ -222,7 +222,7 @@ class CsvSeeder extends Seeder
             $this->tablename = $pathinfo['filename'];
         }
 
-        if( DB::connection($this->db_connection)->getSchemaBuilder()->hasTable( $this->tablename ) ) return TRUE;
+        if( DB::connection($this->connection)->getSchemaBuilder()->hasTable( $this->tablename ) ) return TRUE;
 
         $this->console( 'Table "'.$this->tablename.'" could not be found in database', 'error' );
 
@@ -265,11 +265,11 @@ class CsvSeeder extends Seeder
     {
         if( ! $this->truncate ) return;
 
-        if( ! $foreignKeys ) DB::connection($this->db_connection)->statement('SET FOREIGN_KEY_CHECKS = 0;');
+        if( ! $foreignKeys ) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 0;');
 
-        DB::connection($this->db_connection)->table( $this->tablename )->truncate();
+        DB::connection($this->connection)->table( $this->tablename )->truncate();
 
-        if( ! $foreignKeys ) DB::connection($this->db_connection)->statement('SET FOREIGN_KEY_CHECKS = 1;');
+        if( ! $foreignKeys ) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 
     /**
@@ -332,7 +332,7 @@ class CsvSeeder extends Seeder
     {
         if( empty($this->header) ) return $this->console( 'No CSV headers were parsed' );
 
-        $parser = new CsvHeaderParser( $this->tablename, $this->aliases, $this->skipper, $this->db_connection );
+        $parser = new CsvHeaderParser( $this->connection, $this->tablename, $this->aliases, $this->skipper);
 
         $this->header = $parser->parseHeader( $this->header );
     }
@@ -344,7 +344,7 @@ class CsvSeeder extends Seeder
      */
     private function parseCSV()
     {
-        if( ! $this->csvData || empty($this->header) ) return; 
+        if( ! $this->csvData || empty($this->header) ) return;
 
         $parser = new CsvRowParser( $this->header, $this->empty, $this->defaults, $this->timestamps, $this->hashable, $this->validate, $this->encode );
 
@@ -381,7 +381,7 @@ class CsvSeeder extends Seeder
 
         try
         {
-            DB::connection($this->db_connection)->table( $this->tablename )->insert( $this->parsedData );
+            DB::connection($this->connection)->table( $this->tablename )->insert( $this->parsedData );
 
             $this->parsedData = [];
 

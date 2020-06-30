@@ -1,5 +1,9 @@
+![PHP from Packagist](https://img.shields.io/packagist/php-v/jeroenzwart/laravel-csv-seeder?style=flat-square)
 [![Latest Version on Packagist][ico-version]][link-packagist]
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/jeroenzwart/laravel-csv-seeder?style=flat-square)
 [![Total Downloads][ico-downloads]][link-downloads]
+![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/jeroenzwart/laravel-csv-seeder?style=flat-square)
+
 
 [ico-version]: https://img.shields.io/packagist/v/jeroenzwart/laravel-csv-seeder.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/jeroenzwart/laravel-csv-seeder.svg?style=flat-square
@@ -21,7 +25,10 @@ With this package you can save time for seeding your database. Instead of typing
 - Adjust Laravel's timestamp at seeding.
 
 ## Installation
-- Require this package directly by `composer require --dev jeroenzwart/laravel-csv-seeder`
+- Require this package directly by
+
+    `composer require --dev jeroenzwart/laravel-csv-seeder`
+    
 - Or add this package in your composer.json and run `composer update`
 
     "jeroenzwart/laravel-csv-seeder": "1.*"
@@ -37,7 +44,7 @@ class UsersTableSeeder extends CsvSeeder
     {
         $this->file = '/database/seeds/csvs/users.csv';
     }
-    
+
     /**
      * Run the database seeds.
      *
@@ -46,8 +53,8 @@ class UsersTableSeeder extends CsvSeeder
     public function run()
     {
         // Recommended when importing larger CSVs
-	    DB::disableQueryLog();
-	    parent::run();
+        DB::disableQueryLog();
+        parent::run();
     }
 }
 ```
@@ -58,7 +65,8 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
     John,Doe,1980-01-01
 
 ## Configuration
-- `tablename` *(string*) - Name of table to insert data.
+- `tablename` *(string NULL)* - Name of table to insert data.
+- `connection` *(string NULL)* - Name of database connection.
 - `truncate` *(boolean TRUE)*  - Truncate the table before seeding.
 - `header` *(boolean TRUE)* - CSV has a header row, set FALSE if not.
 - `mapping` *(array [])* - Associative array of column names in order as CSV, if empty the first row of CSV will be used as header.
@@ -93,12 +101,23 @@ Users of Microsoft Excel can use a macro to export there worksheets to CSV. Easi
 #### Table with given timestamps
 Give the seeder a specific table name instead of using the CSV filename;
 ```php
-	public function __construct()
-    	{
-		$this->file = '/database/seeds/csvs/users.csv';
-		$this->tablename = 'email_users';
-		$this->timestamps = '1970-01-01 00:00:00';
-	}
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
+        $this->tablename = 'email_users';
+        $this->timestamps = '1970-01-01 00:00:00';
+    }
+```
+
+#### Connection
+Give the seeder a specific connection and table name.;
+```php
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/other_users.csv';
+        $this->connection = 'second_db';
+        $this->tablename = 'second_users';
+    }
 ```
 
 #### Mapping
@@ -109,23 +128,23 @@ Map the CSV headers to table columns, with the following CSV;
 
 Handle like this;    
 ```php
-	public function __construct()
-	{
-		$this->file = '/database/seeds/csvs/users.csv';
-		$this->mapping = ['id', 'firstname', 'lastname'];
-		$this->header = FALSE;
-	}
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
+        $this->mapping = ['id', 'firstname', 'lastname'];
+        $this->header = FALSE;
+    }
 ```
 
 #### Aliases with defaults
 Seed a table with aliases and default values, like this;
 ```php
-	public function __construct()
-	{
-		$this->file = '/database/seeds/csvs/users.csv';
-		$this->aliases = ['csvColumnName' => 'table_column_name', 'foo' => 'bar'];
-		$this->defaults = ['created_by' => 'seeder', 'updated_by' => 'seeder'];
-	}
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
+        $this->aliases = ['csvColumnName' => 'table_column_name', 'foo' => 'bar'];
+        $this->defaults = ['created_by' => 'seeder', 'updated_by' => 'seeder'];
+    }
 ```
 
 #### Skipper
@@ -137,34 +156,34 @@ Skip a column in a CSV with a prefix. For example you use `id` in your CSV and o
 
 The first and fourth value of each row will be skipped with seeding. The default prefix is '%' and changeable to;
 ```php
-	public function __construct()
-	{
-		$this->file = '/database/seeds/csvs/users.csv';
-		$this->skipper = 'custom_';
-	}
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
+        $this->skipper = 'custom_';
+    }
 ```
 
 #### Validate
 Validate each row of a CSV like this;
 ```php
-	public function __construct()
-	{
-		$this->file = '/database/seeds/csvs/users.csv';
-		$this->validate = [ 'name'              => 'required',
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
+        $this->validate = [ 'name'              => 'required',
                             'email'             => 'email',
                             'email_verified_at' => 'date_format:Y-m-d H:i:s',
                             'password'          => ['required', Rule::notIn([' '])]];
-	}
+    }
 ```
 
 #### Hash
 Hash values when seeding a CSV like this;
 ```php
-	public function __construct()
-	{
-		$this->file = '/database/seeds/csvs/users.csv';
-		$this->hashable = ['password', 'salt'];
-	}
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
+        $this->hashable = ['password', 'salt'];
+    }
 ```
 
 ## License
@@ -173,7 +192,7 @@ Laravel CSV Seeder is open-sourced software licensed under the MIT license. Plea
 
 ## Donation
 
-If this project help you reduce time to develop, you can give me a cup of tea :)  
+If this project helped you to reduce some time to develop, you can donate me a beer :)  
 By Bitcoin 17jnh8oBkgLpXo3d9Xmq6i6hhYgooaYiGf or the link below;
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4KJ5KBX9CLUUA&source=url)

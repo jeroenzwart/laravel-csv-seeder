@@ -5,7 +5,7 @@ namespace JeroenZwart\CsvSeeder;
 use DB;
 
 class CsvHeaderParser
-{   
+{
     private $aliases      = [];
     private $skipper      = '%';
 
@@ -20,9 +20,9 @@ class CsvHeaderParser
      *
      * @param string $tablename
      */
-    public function __construct( $tablename, $aliases, $skipper, $db_connection )
+    public function __construct( $connection, $tablename, $aliases, $skipper )
     {
-        $this->table = DB::connection($db_connection)->getSchemaBuilder()->getColumnListing( $tablename );
+        $this->table = DB::connection( $connection )->getSchemaBuilder()->getColumnListing( $tablename );
 
         $this->aliases = $aliases === NULL ? $this->aliases : $aliases;
 
@@ -59,7 +59,7 @@ class CsvHeaderParser
     private function aliasColumns()
     {
         if( empty($this->aliases) ) return;
-        
+
         if( array_key_exists($this->name, $this->aliases) )
         {
             $this->name = $this->aliases[$this->name];
@@ -74,11 +74,11 @@ class CsvHeaderParser
      */
     private function skipColumns()
     {
-        if( ! isset($this->skipper) ) return; 
+        if( ! isset($this->skipper) ) return;
 
         if( $this->skipper != substr($this->name, 0, 1) ) $this->parsedHeader[$this->key] = $this->name;
     }
-    
+
     /**
      * Check if a column exists in the table
      *
