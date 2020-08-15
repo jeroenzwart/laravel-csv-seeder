@@ -132,7 +132,7 @@ class CsvRowParser
      */
     private function isEmptyValue()
     {
-        if( $this->empty === FALSE and empty($this->value) ) $this->value = NULL;
+        if( $this->empty === FALSE and $this->value === '' ) $this->value = NULL;
 
         if( strtoupper($this->value) == 'NULL' ) $this->value = NULL;
 
