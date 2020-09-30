@@ -2,10 +2,10 @@
 
 namespace JeroenZwart\CsvSeeder;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use JeroenZwart\CsvSeeder\CsvHeaderParser as CsvHeaderParser;
-use JeroenZwart\CsvSeeder\CsvRowParser as CsvRowParser;
+use JeroenZwart\CsvSeeder\CsvHeaderParser;
+use JeroenZwart\CsvSeeder\CsvRowParser;
 
 class CsvSeeder extends Seeder
 {
@@ -42,7 +42,7 @@ class CsvSeeder extends Seeder
      * If the CSV has headers, set TRUE
      * Default: TRUE
      *
-     * @var boolean
+     * @var boolean | array
      */
     public $header = TRUE;
 
@@ -71,6 +71,14 @@ class CsvSeeder extends Seeder
      * @var array
      */
     public $aliases;
+
+    /**
+     * Array of parsers as values with header name as index
+     * Example: ['name' => function ($value) { return ucfirst($value); } ]
+     *
+     * @var array
+     */
+    public $parsers;
 
     /**
      * Array of column names to be hashed before inserting
@@ -189,7 +197,7 @@ class CsvSeeder extends Seeder
     }
 
     /**
-     * Check if the file is accesable
+     * Check if the file is accessible
      *
      * @return boolean
      */
@@ -346,7 +354,7 @@ class CsvSeeder extends Seeder
     {
         if( ! $this->csvData || empty($this->header) ) return;
 
-        $parser = new CsvRowParser( $this->header, $this->empty, $this->defaults, $this->timestamps, $this->hashable, $this->validate, $this->encode );
+        $parser = new CsvRowParser( $this->header, $this->empty, $this->defaults, $this->timestamps, $this->parsers, $this->hashable, $this->validate, $this->encode );
 
         while( ($row = fgetcsv( $this->csvData, 0, $this->delimiter )) !== FALSE )
         {

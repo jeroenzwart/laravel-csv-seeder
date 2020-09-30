@@ -20,6 +20,7 @@ With this package you can save time for seeding your database. Instead of typing
 - Automatically try to resolve CSV filename to table name.
 - Automatic mapping of CSV headers to table column names.
 - Skip seeding data with a prefix at in the CSV headers.
+- Parse values with custom closure.
 - Hash values with a given array of column names.
 - Seed default values in to table columns.
 - Adjust Laravel's timestamp at seeding.
@@ -73,7 +74,8 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `aliases` *(array [])* - Associative array of CSV header names and column names; csvColumnName => aliasColumnName.
 - `skipper` *(string %)* - Skip a CSV header and data to import in the table.
 - `validate` *(array [])* - Validate a CSV row with Laravel Validation.
-- `hashable` *(array ['password'])* - Array of column names to hash there values. It uses Hash::make().
+- `parsers` *(array [])* - Associative array of column names to parse a value with the given closure.
+- `hashable` *(array ['password'])* - Array of column names to hash their values. It uses Hash::make().
 - `empty` *(boolean FALSE)* - Set TRUE for keeping an empty value in the CSV file to an empty string instead of a NULL.
 - `defaults` *(array [])* - Array of table columns and it's values to seed, when they are empty in the CSV file.
 - `timestamps` *(string/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
@@ -173,6 +175,18 @@ Validate each row of a CSV like this;
                             'email'             => 'email',
                             'email_verified_at' => 'date_format:Y-m-d H:i:s',
                             'password'          => ['required', Rule::notIn([' '])]];
+    }
+```
+
+#### Parse
+Parse values of certain column when seeding a CSV like this;
+```php
+    public function __construct()
+    {
+        $this->file = '/database/seeds/csvs/users.csv';
+        $this->parsers = ['email' => function ($value) { 
+            return strtolower($value);
+        }];
     }
 ```
 

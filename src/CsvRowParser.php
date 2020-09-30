@@ -2,8 +2,8 @@
 
 namespace JeroenZwart\CsvSeeder;
 
-use Validator;
-use Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class CsvRowParser
 {
@@ -11,6 +11,7 @@ class CsvRowParser
     private $empty        = FALSE;
     private $defaults     = [];
     private $timestamps   = TRUE;
+    private $parsers      = [];
     private $hashable     = ['password'];
     private $validate     = [];
     private $encode       = TRUE;
@@ -27,11 +28,12 @@ class CsvRowParser
      * @param boolean $empty
      * @param array $defaults
      * @param string $timestamps
+     * @param array $parsers
      * @param array $hashable
      * @param array $validate
      * @param boolean $encode
      */
-    public function __construct( $header, $empty, $defaults, $timestamps, $hashable, $validate, $encode )
+    public function __construct( $header, $empty, $defaults, $timestamps, $parsers, $hashable, $validate, $encode )
     {
         $this->header = $header;
 
@@ -40,6 +42,8 @@ class CsvRowParser
         $this->defaults = $defaults === NULL ? $this->defaults : $defaults;
 
         $this->timestamps = $timestamps === NULL ? $this->timestamps : $timestamps;
+
+        $this->parsers = $parsers === NULL ? $this->parsers : $parsers;
 
         $this->hashable = $hashable === NULL ? $this->hashable : $hashable;
 
@@ -69,6 +73,8 @@ class CsvRowParser
         foreach( $this->row as $this->key => $this->value )
         {
             $this->isEmptyValue();
+
+            $this->doParse();
 
             $this->doEncode();
 
@@ -139,6 +145,25 @@ class CsvRowParser
         if( strtoupper($this->value) == 'FALSE' ) $this->value = FALSE;
 
         if( strtoupper($this->value) == 'TRUE' ) $this->value = TRUE;
+    }
+
+    /**
+     * Parse the value.
+     *
+     * @return void
+     */
+    private function doParse()
+    {
+
+        if( empty($this->parsers) ) return;
+
+        if( ! array_key_exists($this->key, $this->parsers) ) return;
+
+        $closure = $this->parsers[$this->key];
+
+        if( ! is_callable($closure) ) return;
+
+        $this->value = $closure( $this->value );
     }
 
     /**
