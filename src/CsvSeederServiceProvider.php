@@ -4,6 +4,11 @@ namespace JeroenZwart\CsvSeeder;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class CsvSeederServiceProvider.
+ *
+ * @package JeroenZwart\CsvSeeder
+ */
 class CsvSeederServiceProvider extends ServiceProvider
 {
     /**
@@ -12,7 +17,7 @@ class CsvSeederServiceProvider extends ServiceProvider
 	 * @var bool
 	 */
     protected $defer = false;
-    
+
     /**
      * Bootstrap services.
      *

@@ -11,7 +11,7 @@
 [link-downloads]: https://packagist.org/packages/jeroenzwart/laravel-csv-seeder
 
 # Laravel CSV Seeder
-> #### Seed your database using CSV files with Laravel
+> #### Seed your database using CSV files with Laravel or Lumen
 
 With this package you can save time for seeding your database. Instead of typing out the seeder files, you can use CSV files to fill up the database of your project. There are configuration options available to control the insert the data of your CSV files.
 

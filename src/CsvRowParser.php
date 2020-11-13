@@ -5,6 +5,11 @@ namespace JeroenZwart\CsvSeeder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class CsvRowParser.
+ *
+ * @package JeroenZwart\CsvSeeder
+ */
 class CsvRowParser
 {
     private $header;

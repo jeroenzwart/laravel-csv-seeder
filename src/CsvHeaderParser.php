@@ -2,8 +2,13 @@
 
 namespace JeroenZwart\CsvSeeder;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 
+/**
+ * Class CsvHeaderParser.
+ *
+ * @package JeroenZwart\CsvSeeder
+ */
 class CsvHeaderParser
 {
     private $aliases      = [];
