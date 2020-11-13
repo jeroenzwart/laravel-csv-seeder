@@ -4,9 +4,12 @@ namespace JeroenZwart\CsvSeeder;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use JeroenZwart\CsvSeeder\CsvHeaderParser;
-use JeroenZwart\CsvSeeder\CsvRowParser;
 
+/**
+ * Class CsvSeeder.
+ *
+ * @package JeroenZwart\CsvSeeder
+ */
 class CsvSeeder extends Seeder
 {
     /**
