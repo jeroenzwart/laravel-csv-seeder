@@ -460,6 +460,8 @@ class CsvSeeder extends Seeder
      */
     private function console( $message, $level = FALSE )
     {
+        if (isset($this->command) === FALSE) return;
+        
         if( $level ) $message = '<'.$level.'>'.$message.'</'.$level.'>';
 
         $this->command->line( '<comment>CsvSeeder: </comment>'.$message );
