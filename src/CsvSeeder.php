@@ -42,6 +42,14 @@ class CsvSeeder extends Seeder
     public $truncate = TRUE;
 
     /**
+     * Enable or disable the foreign key check
+     * Default: FALSE
+     *
+     * @var boolean
+     */
+    public $foreignKeyCheck = FALSE;
+
+    /**
      * If the CSV has headers, set TRUE
      * Default: TRUE
      *
@@ -269,18 +277,17 @@ class CsvSeeder extends Seeder
     /**
      * Truncate the table
      *
-     * @param boolean $foreignKeys
      * @return void
      */
-    private function truncateTable( $foreignKeys = TRUE )
+    private function truncateTable()
     {
-        if( ! $this->truncate ) return;
+        if( $this->truncate === FALSE ) return;
 
-        if( ! $foreignKeys ) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 0;');
+        if( $this->foreignKeyCheck === FALSE) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 0;');
 
         DB::connection($this->connection)->table( $this->tablename )->truncate();
 
-        if( ! $foreignKeys ) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 1;');
+        if( $this->foreignKeyCheck === FALSE ) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 
     /**

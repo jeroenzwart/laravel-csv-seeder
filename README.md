@@ -69,6 +69,7 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `tablename` *(string NULL)* - Name of table to insert data.
 - `connection` *(string NULL)* - Name of database connection.
 - `truncate` *(boolean TRUE)*  - Truncate the table before seeding.
+- `foreignKeyCheck` *(boolean FALSE)*  - Enable or disable the foreign key checks.
 - `header` *(boolean TRUE)* - CSV has a header row, set FALSE if not.
 - `mapping` *(array [])* - Associative array of column names in order as CSV, if empty the first row of CSV will be used as header.
 - `aliases` *(array [])* - Associative array of CSV header names and column names; csvColumnName => aliasColumnName.
@@ -78,7 +79,7 @@ Place your CSV into the path */database/seeds/csvs/* of your Laravel project or 
 - `hashable` *(array ['password'])* - Array of column names to hash their values. It uses Hash::make().
 - `empty` *(boolean FALSE)* - Set TRUE for keeping an empty value in the CSV file to an empty string instead of a NULL.
 - `defaults` *(array [])* - Array of table columns and it's values to seed, when they are empty in the CSV file.
-- `timestamps` *(string/boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
+- `timestamps` *(string|boolean TRUE)* - Set Laravel's timestamp in the database while seeding; set as TRUE will use current time.
 - `delimiter` *(string ;)* - The used delimiter in the CSV files.
 - `chunk` *(integer 50)* - Insert the data of rows every `chunk` while reading the CSV.
 - `encode` *(boolean TRUE)* - Encode the value of rows to UTF-8
