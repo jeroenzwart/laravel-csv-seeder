@@ -184,6 +184,8 @@ class CsvSeeder extends Seeder
      */
     public function run()
     {
+        $this->setConnection();
+
         if( ! $this->checkFile() ) return;
 
         if( ! $this->checkFilepath() ) return;
@@ -191,6 +193,19 @@ class CsvSeeder extends Seeder
         if( ! $this->checkTablename() ) return;
 
         $this->seeding();
+    }
+
+    /**
+     * Set the connection from config, if it is not already set.
+     *
+     * @return void
+     */
+    private function setConnection()
+    {
+        if ($this->connection !== NULL) return;
+
+        $this->connection = config('database.default');
+
     }
 
     /**
@@ -283,11 +298,31 @@ class CsvSeeder extends Seeder
     {
         if( $this->truncate === FALSE ) return;
 
-        if( $this->foreignKeyCheck === FALSE) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 0;');
+        $this->toggleForeignKeyCheck(false);
 
         DB::connection($this->connection)->table( $this->tablename )->truncate();
 
-        if( $this->foreignKeyCheck === FALSE ) DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = 1;');
+        $this->toggleForeignKeyCheck(true);
+    }
+
+    /**
+     * Toggle the foreign key check in certain database drivers.
+     *
+     * @param boolean $mode
+     */
+    private function toggleForeignKeyCheck( $mode )
+    {
+        if( $this->foreignKeyCheck === FALSE ) return;
+
+        switch(config('database.connections.' . $this->connection . '.driver'))
+        {
+            case 'mysql':
+                DB::connection($this->connection)->statement('SET FOREIGN_KEY_CHECKS = ' . (int) $mode . ';');
+                break;
+            case 'sqlite':
+                DB::connection($this->connection)->statement('PRAGMA foreign_keys = ' . ($mode ? 'ON' : 'OFF') . ';');
+                break;
+        }
     }
 
     /**
@@ -461,7 +496,7 @@ class CsvSeeder extends Seeder
     private function console( $message, $level = FALSE )
     {
         if (isset($this->command) === FALSE) return;
-        
+
         if( $level ) $message = '<'.$level.'>'.$message.'</'.$level.'>';
 
         $this->command->line( '<comment>CsvSeeder: </comment>'.$message );
