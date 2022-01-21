@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\DB;
  */
 class CsvHeaderParser
 {
-    private $aliases      = [];
-    private $skipper      = '%';
+    protected $aliases      = [];
+    protected $skipper      = '%';
 
-    private $table;
-    private $key;
-    private $name;
+    protected $table;
+    protected $key;
+    protected $name;
 
-    private $parsedHeader = [];
+    protected $parsedHeader = [];
 
     /**
      * Set the tablename

@@ -171,11 +171,11 @@ class CsvSeeder extends Seeder
     public $encode = TRUE;
 
 
-    private $filepath;
-    private $csvData;
-    private $parsedData;
-    private $count = 0;
-    private $total = 0;
+    protected $filepath;
+    protected $csvData;
+    protected $parsedData;
+    protected $count = 0;
+    protected $total = 0;
 
     /**
      * Run the class

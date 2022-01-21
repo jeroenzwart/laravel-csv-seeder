@@ -12,19 +12,19 @@ use Illuminate\Support\Facades\Hash;
  */
 class CsvRowParser
 {
-    private $header;
-    private $empty        = FALSE;
-    private $defaults     = [];
-    private $timestamps   = TRUE;
-    private $parsers      = [];
-    private $hashable     = ['password'];
-    private $validate     = [];
-    private $encode       = TRUE;
+    protected $header;
+    protected $empty        = FALSE;
+    protected $defaults     = [];
+    protected $timestamps   = TRUE;
+    protected $parsers      = [];
+    protected $hashable     = ['password'];
+    protected $validate     = [];
+    protected $encode       = TRUE;
 
-    private $key;
-    private $value;
-    private $row;
-    private $parsedRow;
+    protected $key;
+    protected $value;
+    protected $row;
+    protected $parsedRow;
 
     /**
      * Set the header and possible options to add or parse a row
