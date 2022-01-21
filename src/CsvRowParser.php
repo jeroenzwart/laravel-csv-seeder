@@ -100,7 +100,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function mergeRowAndHeader( )
+    protected function mergeRowAndHeader( )
     {
         foreach( $this->header as $key => $value )
         {
@@ -115,7 +115,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function init()
+    protected function init()
     {
         $this->parsedRow = [];
     }
@@ -125,7 +125,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function doValidate()
+    protected function doValidate()
     {
         if( empty($this->validate) ) return TRUE;
 
@@ -141,7 +141,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function isEmptyValue()
+    protected function isEmptyValue()
     {
         if( $this->empty === FALSE and $this->value === '' ) $this->value = NULL;
 
@@ -157,7 +157,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function doParse()
+    protected function doParse()
     {
 
         if( empty($this->parsers) ) return;
@@ -176,7 +176,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function doEncode()
+    protected function doEncode()
     {
         if( $this->encode === FALSE ) return;
 
@@ -188,7 +188,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function doHashable()
+    protected function doHashable()
     {
         if( empty($this->hashable) ) return;
 
@@ -202,7 +202,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function addDefaults()
+    protected function addDefaults()
     {
         if( empty($this->defaults) ) return;
 
@@ -219,7 +219,7 @@ class CsvRowParser
      *
      * @return void
      */
-    private function addTimestamps()
+    protected function addTimestamps()
     {
         if( empty($this->timestamps) ) return;
 

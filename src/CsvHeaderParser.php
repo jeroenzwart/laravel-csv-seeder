@@ -61,7 +61,7 @@ class CsvHeaderParser
      *
      * @return void
      */
-    private function aliasColumns()
+    protected function aliasColumns()
     {
         if( empty($this->aliases) ) return;
 
@@ -77,7 +77,7 @@ class CsvHeaderParser
      *
      * @return void
      */
-    private function skipColumns()
+    protected function skipColumns()
     {
         if( ! isset($this->skipper) ) return;
 
@@ -89,7 +89,7 @@ class CsvHeaderParser
      *
      * @return void
      */
-    private function checkColumns()
+    protected function checkColumns()
     {
         if( ! in_array($this->name, $this->table) ) unset($this->parsedHeader[$this->key]);
     }

@@ -200,7 +200,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function setConnection()
+    protected function setConnection()
     {
         if ($this->connection !== NULL) return;
 
@@ -213,7 +213,7 @@ class CsvSeeder extends Seeder
      *
      * @return boolean
      */
-    private function checkFile()
+    protected function checkFile()
     {
         if( $this->file ) return TRUE;
 
@@ -227,7 +227,7 @@ class CsvSeeder extends Seeder
      *
      * @return boolean
      */
-    private function checkFilepath()
+    protected function checkFilepath()
     {
         $this->filepath = $this->file;
 
@@ -247,7 +247,7 @@ class CsvSeeder extends Seeder
      *
      * @return boolean
      */
-    private function checkTablename()
+    protected function checkTablename()
     {
         if( ! isset($this->tablename) )
         {
@@ -268,7 +268,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function seeding()
+    protected function seeding()
     {
         $this->truncateTable();
 
@@ -294,7 +294,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function truncateTable()
+    protected function truncateTable()
     {
         if( $this->truncate === FALSE ) return;
 
@@ -310,7 +310,7 @@ class CsvSeeder extends Seeder
      *
      * @param boolean $mode
      */
-    private function toggleForeignKeyCheck( $mode )
+    protected function toggleForeignKeyCheck( $mode )
     {
         if( $this->foreignKeyCheck === FALSE ) return;
 
@@ -330,7 +330,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function setTotal()
+    protected function setTotal()
     {
         $file = file( $this->filepath, FILE_SKIP_EMPTY_LINES );
 
@@ -344,7 +344,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function openCSV()
+    protected function openCSV()
     {
         $this->csvData = fopen( $this->filepath, 'r' );;
     }
@@ -354,7 +354,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function setHeader()
+    protected function setHeader()
     {
         if( $this->header == FALSE ) return;
 
@@ -369,7 +369,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function setMapping()
+    protected function setMapping()
     {
         if( empty($this->mapping) ) return;
 
@@ -381,7 +381,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function parseHeader()
+    protected function parseHeader()
     {
         if( empty($this->header) ) return $this->console( 'No CSV headers were parsed' );
 
@@ -395,7 +395,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function parseCSV()
+    protected function parseCSV()
     {
         if( ! $this->csvData || empty($this->header) ) return;
 
@@ -428,7 +428,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function insertRows()
+    protected function insertRows()
     {
         if( empty($this->parsedData) ) return;
 
@@ -455,7 +455,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function closeCSV()
+    protected function closeCSV()
     {
         if( ! $this->csvData ) return;
 
@@ -467,7 +467,7 @@ class CsvSeeder extends Seeder
      *
      * @return void
      */
-    private function outputParsed()
+    protected function outputParsed()
     {
         $this->console( $this->count.' of '.$this->total.' rows has been seeded in table "'.$this->tablename.'"' );
     }
@@ -478,7 +478,7 @@ class CsvSeeder extends Seeder
      * @param [type] $string
      * @return string
      */
-    private function stripUtf8Bom( $string )
+    protected function stripUtf8Bom( $string )
     {
         $bom    = pack('H*', 'EFBBBF');
         $string = preg_replace("/^$bom/", '', $string);
@@ -493,7 +493,7 @@ class CsvSeeder extends Seeder
      * @param string $level
      * @return void
      */
-    private function console( $message, $level = FALSE )
+    protected function console( $message, $level = FALSE )
     {
         if (isset($this->command) === FALSE) return;
 
