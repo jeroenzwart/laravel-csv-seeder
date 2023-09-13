@@ -417,7 +417,7 @@ class CsvSeeder extends Seeder
 
             $this->count ++;
 
-            if( $this->count >= $this->chunk ) $this->insertRows();
+            if( count($this->parsedData) >= $this->chunk ) $this->insertRows();
         }
 
         $this->insertRows();
@@ -437,8 +437,6 @@ class CsvSeeder extends Seeder
             DB::connection($this->connection)->table( $this->tablename )->insert( $this->parsedData );
 
             $this->parsedData = [];
-
-            $this->chunk ++;
         }
         catch (\Exception $e)
         {
