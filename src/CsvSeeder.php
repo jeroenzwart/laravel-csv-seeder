@@ -346,7 +346,7 @@ class CsvSeeder extends Seeder
      */
     private function openCSV()
     {
-        $this->csvData = fopen( $this->filepath, 'r' );;
+        $this->csvData = fopen( $this->filepath, 'r' );
     }
 
     /**
