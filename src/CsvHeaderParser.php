@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\DB;
  */
 class CsvHeaderParser
 {
-    private $aliases      = [];
-    private $skipper      = '%';
+    protected $aliases      = [];
+    protected $skipper      = '%';
 
-    private $table;
-    private $key;
-    private $name;
+    protected $table;
+    protected $key;
+    protected $name;
 
-    private $parsedHeader = [];
+    protected $parsedHeader = [];
 
     /**
      * Set the tablename
@@ -61,7 +61,7 @@ class CsvHeaderParser
      *
      * @return void
      */
-    private function aliasColumns()
+    protected function aliasColumns()
     {
         if( empty($this->aliases) ) return;
 
@@ -77,7 +77,7 @@ class CsvHeaderParser
      *
      * @return void
      */
-    private function skipColumns()
+    protected function skipColumns()
     {
         if( ! isset($this->skipper) ) return;
 
@@ -89,7 +89,7 @@ class CsvHeaderParser
      *
      * @return void
      */
-    private function checkColumns()
+    protected function checkColumns()
     {
         if( ! in_array($this->name, $this->table) ) unset($this->parsedHeader[$this->key]);
     }
