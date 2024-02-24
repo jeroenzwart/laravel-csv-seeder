@@ -231,6 +231,10 @@ class CsvSeeder extends Seeder
     {
         $this->filepath = $this->file;
 
+        if (filter_var($this->filepath, FILTER_VALIDATE_URL)) {
+            return TRUE;
+        }
+
         if( file_exists( $this->filepath ) || is_readable( $this->filepath ) ) return TRUE;
 
         $this->filepath = base_path() . $this->file;

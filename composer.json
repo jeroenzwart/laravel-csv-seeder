@@ -1,7 +1,7 @@
 {
-	"name": "jeroenzwart/laravel-csv-seeder",
+	"name": "denisd3d/laravel-csv-seeder",
 	"description": "Seed the database with Laravel using CSV files",
-	"homepage": "https://github.com/jeroenzwart/laravel-csv-seeder",
+	"homepage": "https://github.com/DenisD3D/laravel-csv-seeder",
 	"authors": [
 		{
 			"name": "Jeroen Zwart",
